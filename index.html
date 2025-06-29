@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MasterMind Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+</head>
+
+
+<style>
+    body {
+        font-family: "Open Sans";
+        padding: 0;
+        margin: 0;
+        background-color: brown;
+    }
+
+    /* Logo */
+    #logo{
+        width: 10vw;
+        height: 10vw;
+    }
+
+    #gameTitle {
+        width: 100vw;
+        height: 20vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10vh;
+    }
+
+    /* Game Name */
+    #gameName {
+        font-size: 7vw;
+        font-weight: 1000;
+        color: white;
+        padding-left: 3vw;
+    }
+
+    #menu{
+        width: 100vw;
+        height: 20vw;
+        margin: 15vh 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    /* Button Background */
+    .buttonBG {
+        background-color: goldenrod;
+        border-radius: 3vw;
+        border: 2px solid darkslategray;
+        width: 25vw;
+        height: 15vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .buttonBG:hover {
+        background-color: rgb(251, 214, 120)
+    }
+
+    /* Button */
+    .btn {
+        text-decoration: none;
+        font-size: 3vw;
+        color: darkslategrey;
+        font-weight: 400;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+
+<body>
+    <!-- Home Page -->
+    <section class="homePage">
+        <div id="gameTitle">
+            <img src="assets/mastermind_4k.png" alt="Game Logo" id="logo">
+            <p id="gameName">MasterMind</p>
+        </div>
+
+        <!-- Menu -->
+        <div id="menu">
+            <div class="buttonBG" id="startBtn">
+                <a href="game.html" class="btn">Start Game</a>
+            </div>
+
+            <div class="buttonBG" id="rulesBtn">
+                <a href="rules.html" class="btn">
+                    <p>Game Rules</p>
+                </a>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Rules</title>
+</head>
+
+<style>
+    body {
+        font-family: "Open Sans";
+        padding: 0;
+        margin: 0;
+        background-color: brown;
+    }
+
+    /* Page Title */
+    #pageTitle {
+        width: 100vw;
+        height: 6vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1vw;
+        font-size: 4vw;
+        font-weight: 700;
+        margin-bottom: 0%;
+        color: white;
+    }
+
+    #rulesSection{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Rules List */
+    .rules-list {
+        max-width: 80vw;
+        padding: 3vw;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 1.5vw;
+        line-height: 1.7;
+        font-size: 1.2vw;
+        list-style-type: none;
+        color: white;
+    }
+
+    /* Direct Child List Items */
+    .rules-list>li {
+        margin-bottom: 1vw;
+        font-weight: bold;
+    }
+
+    /* Rules List */
+    .rules-list ul {
+        margin-left: 3vw;
+        margin-top: 0.5vw;
+        list-style-type: disc;
+        font-weight: normal;
+    }
+
+    /* Rules List Items */
+    .rules-list ul li {
+        margin-bottom: 0.8vw;
+        font-size: 1.1vw;
+    }
+</style>
+
+<body>
+    <!-- Game Rules Page -->
+    <section class="rulesPage">
+
+        <p id="pageTitle">Game Rules</p>
+
+        <!-- Rules List -->
+        <div id="rulesSection">
+            <ul class="rules-list">
+                <li>🎯 Objective: Crack the secret code made up of 4 colored pegs in the
+                    correct order.</li>
+
+                <li>🧩 How to Play:</li>
+                <ul>
+                    <li>Drag and drop colored pegs from the <b>color palette on the side</b> into the 4 empty
+                        slots in the current row.</li>
+                    <li>After placing all 4 colors, click the <b>“Check”</b> button to evaluate your guess.</li>
+                </ul>
+
+                <li>🎯 Feedback Pegs:</li>
+                <ul>
+                    <li><b>Black Peg:</b> Correct color in the correct position.
+                    </li>
+                    <li><b>White Peg:</b> Correct color but in the wrong position.
+                    </li>
+                    <li><b>No Peg:</b> That color does not appear in the code at all.</li>
+                </ul>
+
+                <li>📌 Code Details:</li>
+                <ul>
+                    <li>A color can appear only once.</li>
+                </ul>
+
+                <li>🔁 Game Progression:</li>
+                <ul>
+                    <li>You have <b>8 attempts</b> to guess the correct code.</li>
+                    <li>The game starts from the <b>bottom row</b> and moves upward <b>one row at a time</b>.</li>
+                </ul>
+
+                <li>🏆 Winning the Game:</li>
+                <ul>
+                    <li>Guess <b>all 4 pegs</b> correctly in both color and position to win! 🎉</li>
+                    <li>If you don't guess it within <b>8 turns</b>, the game ends and the code is revealed.</li>
+                </ul>
+            </ul>
+        </div>
+    </section>
+</body>
+
+</html>

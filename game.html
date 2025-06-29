@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Game</title>
+</head>
+
+<style>
+    body {
+        font-family: "Open Sans";
+        padding: 0;
+        margin: 0;
+        background-color: brown;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #gameSection {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 45vw;
+        height: 90vh;
+        margin-top: 5vh;
+        max-height: 500px;
+        background-image: url(assets/woodenBG.jpg);
+        border-radius: 2vw;
+        border: 1px solid slategray;
+    }
+
+    /* Board Container */
+    #boardContainer {
+        width: 30vw;
+        height: 90vh;
+        max-height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    /* Row */
+    .row {
+        width: 100%;
+        height: 8vh;
+        display: flex;
+        margin: 1%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Solution Heading */
+    #solutionHeading {
+        margin-right: 15%;
+        display: none;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    /* Solution Row */
+    #rowSolution {
+        margin-left: 42%;
+        display: none;
+    }
+
+    /* Colored Circles Sections */
+    .colorLine {
+        display: flex;
+        width: 40%;
+        height: 100%;
+        align-items: center;
+        justify-content: space-between;
+        margin-right: 8%;
+    }
+
+    /* Colored Circle */
+    .colorCircle {
+        width: 30px;
+        height: 30px;
+        background-color: aliceblue;
+        border-radius: 100%;
+        border: 1.5px solid black;
+    }
+
+    /* Peg Section */
+    .pegSection {
+        padding: 0;
+        margin: 0;
+        width: 10%;
+        height: 90%;
+        background-color: cornflowerblue;
+        border-radius: 8px;
+        border: 0.5px solid black;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: center;
+        justify-content: center;
+        place-items: center;
+        visibility: hidden;
+    }
+
+    /* Peg */
+    .peg {
+        width: 10px;
+        height: 10px;
+        visibility: hidden;
+        border-radius: 100%;
+    }
+
+    /* Check Button */
+    .checkButton {
+        width: 20%;
+        height: 80%;
+        background-color: gray;
+        color: white;
+        font-size: 20px;
+        margin-left: 12px;
+        opacity: 0.5;
+        visibility: hidden;
+    }
+
+    /* Color Pallete */
+    #colorPallete {
+        width: 10%;
+        height: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
+
+    /* Color Pallete Circle */
+    .colorPalleteCircle {
+        width: 30px;
+        height: 30px;
+        background-color: aliceblue;
+        border-radius: 100%;
+        border: 1.5px solid black;
+        cursor: grab;
+    }
+
+    /* Result Section */
+    #resultSection {
+        width: 16vw;
+        height: 90vh;
+        max-height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        display: none;
+        padding-right: 10px;
+    }
+
+    /* Result Text */
+    #resultText {
+        width: 78%;
+        padding: 5px;
+        font-size: 19px;
+        font-weight: 800;
+        color: black;
+        background-color: burlywood;
+        border-radius: 10px;
+        border: 2px dotted black;
+        display: none;
+    }
+
+    /* Play Again Button */
+    #playAgainBtn {
+        width: 80%;
+        height: 7%;
+        background-color: navy;
+        color: white;
+        font-size: 18px;
+        border-color: white;
+        border-radius: 10px;
+        display: none;
+    }
+</style>
+
+<body>
+    <!-- Game Page -->
+    <section id="gameSection">
+        <!-- Main Board -->
+        <div id="boardContainer"></div>
+
+        <!-- Color Pallete -->
+        <div id="colorPallete"></div>
+
+        <!-- Result Section -->
+        <div id="resultSection">
+            <p id="resultText"></p>
+            <button id="playAgainBtn" onclick="location.reload(true);">Play Again</button>
+        </div>
+    </section>
+</body>
+
+</html>
+
+<script>
+    const colors = ["red", "yellow", "blue", "green", "orange", "purple", "lawngreen", "saddlebrown"];
+    const totalColorSlots = 4;
+    const totalPegs = 4;
+    const totalRows = 8;
+    var generatedCode = [];
+    var enteredColorCode = [];
+    var noOfAttempts = 0;
+    const boardContainer = document.getElementById("boardContainer");
+    const colorPallete = document.getElementById("colorPallete");
+    var activeRow = 1;
+
+
+
+    // Setup the board when game is loaded
+    setupBoard();
+    generateCode();
+    setActiveRow(activeRow);
+
+
+    // Function for board setup
+    function setupBoard() {
+        boardContainer.innerHTML = "";
+
+        // Solution Heading
+        const solutionHeading = document.createElement("p");
+        solutionHeading.id = "solutionHeading";
+        solutionHeading.innerHTML = "Solution";
+
+        boardContainer.appendChild(solutionHeading);
+
+        // Create solution row
+        const row = document.createElement("div");
+        row.className = "row";
+        row.id = "rowSolution";
+
+        // Create section for colored circles
+        const colorLine = document.createElement("div");
+        colorLine.className = "colorLine";
+        colorLine.id = "colorLineSolution";
+
+        row.appendChild(colorLine);
+
+        // Create colored circles           
+        for (let j = 1; j <= totalColorSlots; j++) {
+            const colorCircle = document.createElement("div");
+            colorCircle.className = "colorCircle";
+            colorCircle.id = `colorCircleSolution${j}`;
+            colorLine.appendChild(colorCircle);
+        }
+
+        boardContainer.appendChild(row);
+
+
+        // Create remaining rows
+        for (let i = totalRows; i >= 1; i--) {
+
+            // Create row
+            const row = document.createElement("div");
+            row.className = "row";
+            row.id = `row${i}`;
+
+            // Create section for colored circles
+            const colorLine = document.createElement("div");
+            colorLine.className = "colorLine";
+            colorLine.id = `colorLine${i}`;
+
+            row.appendChild(colorLine);
+
+            // Create colored circles           
+            for (let j = 1; j <= totalColorSlots; j++) {
+                const colorCircle = document.createElement("div");
+                colorCircle.className = "colorCircle";
+                colorCircle.id = `colorCircle${i}-${j}`;
+
+                colorLine.appendChild(colorCircle);
+            }
+
+            // Create section for pegs
+            const pegSection = document.createElement("div");
+            pegSection.className = "pegSection";
+            pegSection.id = `pegSection${i}`;
+
+            row.appendChild(pegSection);
+
+            // Create pegs
+            for (let k = 1; k <= totalPegs; k++) {
+                const peg = document.createElement("div");
+                peg.className = "peg";
+                peg.id = `peg${i}-${k}`;
+
+                pegSection.appendChild(peg);
+            }
+
+            // Create check button
+            const checkButton = document.createElement("button");
+            checkButton.className = "checkButton";
+            checkButton.id = `checkButton${i}`;
+            checkButton.innerHTML = "Check";
+
+            row.appendChild(checkButton);
+
+            // Create color pallete
+            createColorPallete();
+
+            boardContainer.appendChild(row);
+        }
+
+    }
+
+    // Function to create color pallete
+    function createColorPallete() {
+        colorPallete.innerHTML = "";
+
+        for (let i = 0; i < colors.length; i++) {
+            const colorPalleteCircle = document.createElement("div");
+            colorPalleteCircle.className = "colorPalleteCircle";
+            colorPalleteCircle.id = `pallete${colors[i]}Circle`;
+            colorPalleteCircle.style.backgroundColor = colors[i];
+            colorPalleteCircle.setAttribute("draggable", "true");
+            colorPalleteCircle.addEventListener("dragstart", (e) => {
+                e.dataTransfer.setData("color", colors[i]);
+            });
+            colorPalleteCircle.addEventListener("dragend", (e) => {
+                setActiveRow(activeRow);
+            });
+
+            colorPallete.appendChild(colorPalleteCircle);
+        }
+    }
+
+    // Set active row
+    function setActiveRow(rowNum) {
+        for (let a = 1; a <= totalRows; a++) {
+            if (rowNum === a) {
+                for (let i = 1; i <= totalColorSlots; i++) {
+
+                    // Show check button
+                    const checkButton = document.getElementById(`checkButton${rowNum}`);
+                    checkButton.style.visibility = "visible";
+
+                    const colorCircle = document.getElementById(`colorCircle${rowNum}-${i}`);
+                    colorCircle.addEventListener("dragover", (e) => e.preventDefault());
+                    colorCircle.addEventListener("drop", (e) => {
+                        e.preventDefault();
+                        const color = e.dataTransfer.getData("color");
+
+                        // Check and add the slot if not already filled
+                        const slot = enteredColorCode.find(slot => slot.index === i);
+                        const slotColor = enteredColorCode.find(slotColor => slotColor.color === color);
+
+                        if (!slotColor && !slot) {
+                            colorCircle.style.backgroundColor = color;
+                            enteredColorCode.push({ index: i, color: color });
+                        }
+                        else {
+                            slot.color = color;
+                            colorCircle.style.backgroundColor = color;
+                        }
+                    });
+                }
+            }
+        }
+
+        compareCode();
+
+    }
+
+    // Generate random code
+    function generateCode() {
+        while (generatedCode.length < 4) {
+            let j = Math.floor(Math.random() * colors.length);
+            if (!(generatedCode.includes(colors[j]))) {
+                generatedCode.push(colors[j]);
+            }
+        }
+        console.log(generatedCode);
+    }
+
+    // Compare code
+    function compareCode() {
+        // Check if all slots are filled
+        if (enteredColorCode.length === totalColorSlots) {
+
+            // Enable check button
+            const checkButton = document.getElementById(`checkButton${activeRow}`);
+            checkButton.style.opacity = 1;
+            checkButton.addEventListener("click", (e) => {
+                // Sort entered code by index
+                var sortedEnteredColorCode = enteredColorCode.sort((a, b) => a.index - b.index);
+                var selectedColors = [];
+
+                for (let i = 0; i < totalColorSlots; i++) {
+                    selectedColors.push(sortedEnteredColorCode[i].color);
+                }
+
+                // Check if selected color code matches the generated one
+                if (JSON.stringify(selectedColors) === JSON.stringify(generatedCode)) {
+                    // Show result and play again button
+                    const resultSection = document.getElementById("resultSection");
+                    const resultText = document.getElementById("resultText");
+                    const playAgainBtn = document.getElementById("playAgainBtn");
+                    resultText.innerHTML = "*** You Won! ***";
+                    resultText.style.display = "block";
+                    resultSection.style.display = "block";
+                    playAgainBtn.style.display = "block";
+
+                    // Hide color pallete
+                    colorPallete.style.display = "none";
+
+                    // Hide check button
+                    const checkButton = document.getElementById(`checkButton${activeRow}`);
+                    checkButton.style.visibility = "hidden";
+
+                    // Fill pegs
+                    for (let i = 0; i < totalColorSlots; i++) {
+                        const peg = document.getElementById(`peg${activeRow}-${i + 1}`);
+                        peg.style.backgroundColor = "black";
+                        peg.style.visibility = "visible";
+                    }
+
+                    // Show pegs
+                    const pegSection = document.getElementById(`pegSection${activeRow}`);
+                    pegSection.style.visibility = "visible";
+                }
+                else {
+                    // Change active row
+                    if (activeRow < totalRows) {
+                        const checkButton = document.getElementById(`checkButton${activeRow}`);
+                        checkButton.style.visibility = "hidden";
+
+                        // Fill pegs
+                        for (let i = 0; i < totalColorSlots; i++) {
+                            for (let j = 0; j < totalColorSlots; j++) {
+                                if (selectedColors[i] === generatedCode[j]) {
+                                    const peg = document.getElementById(`peg${activeRow}-${i + 1}`);
+
+                                    // Check if the color is correct 
+                                    if (peg.style.backgroundColor === "") {
+                                        peg.style.backgroundColor = "white";
+                                        peg.style.visibility = "visible";
+
+                                        // Check if both index and color are correct
+                                        if (selectedColors[i] === generatedCode[i]) {
+                                            peg.style.backgroundColor = "black";
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+
+                        const pegSection = document.getElementById(`pegSection${activeRow}`);
+                        pegSection.style.visibility = "visible";
+
+                        activeRow++;
+                        enteredColorCode = [];
+                        setActiveRow(activeRow);
+                    }
+                    else {
+                        for (let i = 0; i < totalColorSlots; i++) {
+                            const checkButton = document.getElementById(`checkButton${activeRow}`);
+                            checkButton.style.visibility = "hidden";
+                            const solutionCircle = document.getElementById(`colorCircleSolution${i + 1}`);
+                            solutionCircle.style.backgroundColor = generatedCode[i];
+                        }
+
+                        // Fill pegs
+                        for (let i = 0; i < totalColorSlots; i++) {
+                            for (let j = 0; j < totalColorSlots; j++) {
+                                if (selectedColors[i] === generatedCode[j]) {
+                                    const peg = document.getElementById(`peg${activeRow}-${i + 1}`);
+
+                                    // Check if the color is correct 
+                                    if (peg.style.backgroundColor === "") {
+                                        peg.style.backgroundColor = "white";
+                                        peg.style.visibility = "visible";
+
+                                        // Check if both index and color are correct
+                                        if (selectedColors[i] === generatedCode[i]) {
+                                            peg.style.backgroundColor = "black";
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+
+                        const pegSection = document.getElementById(`pegSection${activeRow}`);
+                        pegSection.style.visibility = "visible";
+
+                        // Hide color pallete
+                        colorPallete.style.display = "none";
+
+                        // Show solution
+                        const solutionRow = document.getElementById("rowSolution");
+                        const solutionHeading = document.getElementById("solutionHeading");
+
+                        solutionRow.style.display = "block";
+                        solutionHeading.style.display = "block";
+
+                        // Show result and play again button
+                        const resultSection = document.getElementById("resultSection");
+                        const resultText = document.getElementById("resultText");
+                        const playAgainBtn = document.getElementById("playAgainBtn");
+                        resultText.innerHTML = "*** You Lost! ***";
+                        resultText.style.display = "block";
+                        resultSection.style.display = "block";
+                        playAgainBtn.style.display = "block";
+
+                    }
+                }
+
+                console.log(sortedEnteredColorCode);
+            });
+        }
+    }
+
+
+</script>
