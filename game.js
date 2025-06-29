@@ -1,7 +1,7 @@
 const colors = ["red", "yellow", "blue", "green", "orange", "purple", "lawngreen", "saddlebrown"];
     const totalColorSlots = 4;
     const totalPegs = 4;
-    const totalRows = 8;
+    const totalRows = 1;
     var generatedCode = [];
     var enteredColorCode = [];
     var noOfAttempts = 0;
@@ -9,6 +9,10 @@ const colors = ["red", "yellow", "blue", "green", "orange", "purple", "lawngreen
     const colorPallete = document.getElementById("colorPallete");
     var activeRow = 1;
 
+
+    // Check if duplicates allowed or not
+    const isDuplicateAllowed = sessionStorage.getItem("allowDuplicates");
+    console.log(isDuplicateAllowed);
 
 
     // Setup the board when game is loaded
@@ -148,7 +152,10 @@ const colors = ["red", "yellow", "blue", "green", "orange", "purple", "lawngreen
                         const slot = enteredColorCode.find(slot => slot.index === i);
                         const slotColor = enteredColorCode.find(slotColor => slotColor.color === color);
 
-                        if (!slotColor && !slot) {
+                        if (!slotColor && !slot && !isDuplicateAllowed) {
+                            colorCircle.style.backgroundColor = color;
+                            enteredColorCode.push({ index: i, color: color });
+                        } else if(isDuplicateAllowed && !slot){
                             colorCircle.style.backgroundColor = color;
                             enteredColorCode.push({ index: i, color: color });
                         }
@@ -156,7 +163,7 @@ const colors = ["red", "yellow", "blue", "green", "orange", "purple", "lawngreen
                             slot.color = color;
                             colorCircle.style.backgroundColor = color;
                         }
-                    });
+                    }); 
                 }
             }
         }
@@ -169,8 +176,13 @@ const colors = ["red", "yellow", "blue", "green", "orange", "purple", "lawngreen
     function generateCode() {
         while (generatedCode.length < 4) {
             let j = Math.floor(Math.random() * colors.length);
-            if (!(generatedCode.includes(colors[j]))) {
+            if (isDuplicateAllowed) {
                 generatedCode.push(colors[j]);
+            } else 
+            {
+                if (!(generatedCode.includes(colors[j]))){
+                    generatedCode.push(colors[j]);
+                }
             }
         }
         console.log(generatedCode);
