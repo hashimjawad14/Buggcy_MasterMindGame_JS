@@ -1,7 +1,7 @@
 const colors = ["red", "yellow", "blue", "green", "orange", "purple", "lawngreen", "saddlebrown"];
     const totalColorSlots = 4;
     const totalPegs = 4;
-    const totalRows = 1;
+    const totalRows = 8;
     var generatedCode = [];
     var enteredColorCode = [];
     var noOfAttempts = 0;
