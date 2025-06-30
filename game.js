@@ -1,7 +1,7 @@
 const colors = ["red", "yellow", "blue", "green", "orange", "purple", "lawngreen", "saddlebrown"];
     const totalColorSlots = 4;
     const totalPegs = 4;
-    const totalRows = 8;
+    const totalRows = 1;
     var generatedCode = [];
     var enteredColorCode = [];
     var noOfAttempts = 0;
@@ -308,6 +308,7 @@ const colors = ["red", "yellow", "blue", "green", "orange", "purple", "lawngreen
                         const solutionHeading = document.getElementById("solutionHeading");
 
                         solutionRow.style.display = "block";
+                        solutionRow.style.opacity = 1;
                         solutionHeading.style.display = "block";
 
                         // Show result and play again button

@@ -22,10 +22,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 45vw;
-        height: 90vh;
-        margin-top: 5vh;
-        max-height: 500px;
+        width: 50vw;
+        height: 95vh;
+        margin-top: 2vh;
+        max-height: 550px;
         background-image: url(assets/woodenBG.jpg);
         border-radius: 2vw;
         border: 1px solid slategray;
@@ -33,9 +33,9 @@
 
     /* Board Container */
     #boardContainer {
-        width: 30vw;
+        width: 40vw;
         height: 90vh;
-        max-height: 500px;
+        max-height: 550px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -44,7 +44,8 @@
 
     /* Row */
     .row {
-        width: 100%;
+        width: 85%;
+        min-width: 250px;
         height: 8vh;
         display: flex;
         margin: 1%;
@@ -54,16 +55,17 @@
 
     /* Solution Heading */
     #solutionHeading {
-        margin-right: 15%;
-        display: none;
+        margin-right: 30%;
+        display: block;
         font-size: 20px;
         font-weight: 700;
     }
 
     /* Solution Row */
     #rowSolution {
-        margin-left: 42%;
-        display: none;
+        margin-left: 17%;
+        display: block;
+        opacity: 0.3;
     }
 
     /* Colored Circles Sections */
@@ -99,7 +101,6 @@
         align-items: center;
         justify-content: center;
         place-items: center;
-        visibility: hidden;
     }
 
     /* Peg */
@@ -116,7 +117,7 @@
         height: 80%;
         background-color: gray;
         color: white;
-        font-size: 20px;
+        font-size: 90%;
         margin-left: 12px;
         opacity: 0.5;
         visibility: hidden;
@@ -193,7 +194,7 @@
         <!-- Result Section -->
         <div id="resultSection">
             <p id="resultText"></p>
-            <button id="playAgainBtn" onclick="location.reload(true);">Play Again</button>
+            <button id="playAgainBtn" onclick="location.href = 'index.html';">Play Again</button>
         </div>
     </section>
 </body>
